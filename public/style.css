@@ -1,0 +1,160 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    /* Calm UI Palette */
+    --bg-root: #0a0a0a;
+    --bg-surface: #161616;
+    --border-subtle: #262626;
+    --text-primary: #eeeeee;
+    --text-secondary: #888888;
+
+    /* Semantic Colors */
+    --accent-green: #4ade80;
+    --accent-blue: #60a5fa;
+    --accent-gray: #525252;
+
+    /* Spacing */
+    --radius-lg: 12px;
+    --radius-sm: 6px;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-root);
+    background-image: radial-gradient(var(--border-subtle) 1px, transparent 1px);
+    background-size: 24px 24px;
+    color: var(--text-primary);
+    margin: 0;
+    padding: 60px 40px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-weight: 300;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    margin: 0 0 40px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.summary-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.metric {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.metric-value {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid transparent;
+}
+
+.device-list {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.device-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s ease;
+}
+
+.device-card:hover {
+    border-color: #333;
+}
+
+.device-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.device-name {
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+.device-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: auto;
+    font-weight: 400;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-gray);
+    transition: all 0.3s ease;
+}
+
+/* Status States */
+.online .status-dot {
+    background: var(--accent-green);
+    box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
+}
+
+.syncing .status-dot {
+    /* Future proofing */
+    background: var(--accent-blue);
+    box-shadow: 0 0 12px rgba(96, 165, 250, 0.2);
+}
+
+.offline .status-dot {
+    background: var(--accent-gray);
+}
+
+/* Empty States */
+.empty-state {
+    grid-column: 1/-1;
+    padding: 60px;
+    text-align: center;
+    color: var(--text-secondary);
+    border: 1px dashed var(--border-subtle);
+    border-radius: var(--radius-lg);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}

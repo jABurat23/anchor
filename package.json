@@ -1,0 +1,24 @@
+{
+  "name": "anchor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "simulate": "node scripts/simulate_device.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fastify/static": "^9.0.0",
+    "fastify": "^5.7.1",
+    "multicast-dns": "^7.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

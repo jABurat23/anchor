@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anchor Core</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Anchor Core <span id="badge" class="badge">INITIALIZING</span></h1>
+
+    <!-- Summary Stats -->
+    <div class="summary-row">
+        <div class="metric">Devices: <span id="count-total" class="metric-value">-</span></div>
+        <div class="metric">Online: <span id="count-online" class="metric-value">-</span></div>
+        <div class="metric">Offline: <span id="count-offline" class="metric-value">-</span></div>
+    </div>
+
+    <div id="loading" class="empty-state" style="border: none;">Scanning for devices...</div>
+    <div class="device-list" id="list"></div>
+
+    <script>
+        async function load() {
+            let source = 'local';
+            let devices = [];
+
+            try {
+                // Try Local First
+                const res = await fetch('/api/devices', { timeout: 2000 });
+                devices = await res.json();
+            } catch (e) {
+                // Failover to Cloud
+                console.info('Local unreachable, trying cloud...');
+                try {
+                    const res = await fetch('http://localhost:4000/api/devices');
+                    devices = await res.json();
+                    source = 'cloud';
+                } catch (e2) {
+                    source = 'offline';
+                    console.error('All backends failed');
+                }
+            }
+
+            const list = document.getElementById('list');
+            const loading = document.getElementById('loading');
+            const badge = document.getElementById('badge');
+
+            // Update Badge Styles
+            const colors = {
+                local: { bg: 'rgba(74, 222, 128, 0.1)', color: '#4ade80', border: 'rgba(74, 222, 128, 0.2)' },
+                cloud: { bg: 'rgba(96, 165, 250, 0.1)', color: '#60a5fa', border: 'rgba(96, 165, 250, 0.2)' },
+                offline: { bg: 'rgba(82, 82, 82, 0.1)', color: '#888', border: 'rgba(82, 82, 82, 0.2)' }
+            };
+
+            const state = colors[source];
+            badge.innerText = source === 'local' ? 'LOCAL CORE' : (source === 'cloud' ? 'CLOUD RELAY' : 'DISCONNECTED');
+            badge.style.background = state.bg;
+            badge.style.color = state.color;
+            badge.style.borderColor = state.border;
+
+            loading.style.display = 'none';
+
+            // Update Summary Stats
+            const total = devices.length;
+            const online = devices.filter(d => (new Date() - new Date(d.lastSeen)) < 30000).length;
+
+            document.getElementById('count-total').innerText = total;
+            document.getElementById('count-online').innerText = online;
+            document.getElementById('count-offline').innerText = total - online;
+
+            if (source === 'offline') {
+                list.innerHTML = `<div class="empty-state">System Offline. Unable to reach Local Core or Cloud Relay.</div>`;
+                return;
+            }
+
+            if (devices.length === 0) {
+                list.innerHTML = `<div class="empty-state">No devices connected. Waiting for heartbeats...</div>`;
+                return;
+            }
+
+            // Diffing could be better but full re-render is fine for < 100 devices
+            list.innerHTML = '';
+
+            devices.forEach(d => {
+                const el = document.createElement('div');
+                el.className = 'device-card';
+                const lastSeen = new Date(d.lastSeen);
+                const now = new Date();
+                const diffMs = now - lastSeen;
+                const isOnline = diffMs < 30000; // 30s timeout
+
+                el.innerHTML = `
+                        <div class="device-header">
+                            <span class="device-name">${d.name}</span>
+                        </div>
+                        <div class="device-id">${d.id}</div>
+                        <div class="status-row ${isOnline ? 'online' : 'offline'}">
+                            <div class="status-dot"></div>
+                            <span>${isOnline ? 'Active' : 'Last seen ' + lastSeen.toLocaleTimeString()}</span>
+                        </div>
+                    `;
+                list.appendChild(el);
+            });
+
+        }
+
+        load();
+        setInterval(load, 2000);
+    </script>
+</body>
+
+</html>
