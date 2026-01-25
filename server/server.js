@@ -2,6 +2,7 @@ const fastify = require('fastify')({ logger: { level: 'error' } });
 const path = require('path');
 const mDNS = require('multicast-dns');
 const os = require('os');
+const { version: VERSION } = require('../package.json');
 
 // Internal Log Store (Quiet containment)
 const systemLogs = [];
@@ -89,7 +90,7 @@ function sendAnnouncement() {
 
 // Routes
 fastify.get('/api/health', async () => {
-    return { status: 'ok', version: '0.1.0' };
+    return { status: 'ok', version: VERSION };
 });
 
 fastify.get('/api/devices', async () => {
@@ -202,7 +203,7 @@ const start = async () => {
 
         // --- Stylized Startup Banner ---
         const banner = `
-   ⚓ ANCHOR CORE IS ACTIVE
+   ⚓ ANCHOR CORE IS ACTIVE (v${VERSION})
    -----------------------------------------
    Local IP:    http://${LOCAL_IP}:${PORT}
    Hostname:    ${HOSTNAME} (mDNS)
