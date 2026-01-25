@@ -203,7 +203,7 @@ const start = async () => {
 
         // --- Stylized Startup Banner ---
         const banner = `
-   ⚓ ANCHOR CORE IS ACTIVE (v${VERSION})
+   ⚓ ANCHOR CORE™ IS ACTIVE (v${VERSION})
    -----------------------------------------
    Local IP:    http://${LOCAL_IP}:${PORT}
    Hostname:    ${HOSTNAME} (mDNS)

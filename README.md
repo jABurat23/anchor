@@ -1,4 +1,4 @@
-# Anchor ⚓
+# Anchor™ ⚓
 
 Anchor is a **local-first** device management system designed for resilience and low-latency control. It allows local devices to discover a central hub, buffer data during network outages, and sync telemetry to a cloud relay when connectivity is available.
 
