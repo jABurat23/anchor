@@ -1,7 +1,8 @@
 FROM node:18-alpine
 
 # Install system dependencies (mDNS support if needed)
-RUN apk add --no-cache avahi-compat-libdns_sd-dev build-base python3
+# Install system dependencies (mDNS support if needed)
+RUN apk add --no-cache avahi-dev dbus g++ make python3
 
 WORKDIR /app
 
