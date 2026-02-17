@@ -5,3 +5,13 @@ Thumbs.db
 dist/
 build/
 .env
+.env.local
+.gemini
+_scratch
+*.tmp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/
+.vscode/

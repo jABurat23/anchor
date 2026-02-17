@@ -9,7 +9,10 @@ class DeviceAgent extends EventEmitter {
         this.name = config.name || 'Unknown Device';
         this.serverUrl = null;
         this.serverIP = null;
-        this.serverPort = 3000;
+        this.serverUrl = null;
+        this.serverIP = null;
+        this.serverPort = 3333;
+        this.apiKey = config.apiKey || 'anchor_secure_dev_key';
 
         this.buffer = [];
         this.isOnline = false;
@@ -122,7 +125,8 @@ class DeviceAgent extends EventEmitter {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Content-Length': data.length
+                    'Content-Length': data.length,
+                    'X-API-Key': this.apiKey
                 },
                 timeout: 2000
             }, (res) => {
