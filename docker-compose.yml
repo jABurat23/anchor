@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  anchor-core:
+    build: .
+    container_name: anchor-core
+    restart: unless-stopped
+    network_mode: host # Critical for mDNS on Linux/RasPi
+    environment:
+      - PORT=3333
+      - HOST=0.0.0.0
+      - NODE_ENV=production
+      # - ANCHOR_SECRET_KEY=your_secure_key_here
+    ports:
+      - "3333:3333"
+    volumes:
+      - ./logs:/app/logs
+  # Optional: Cloud Relay or Database could be added here
