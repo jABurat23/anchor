@@ -48,8 +48,6 @@ function showDashboard() {
 
     // Start Polling for List
     loadList();
-    // Start Polling for List
-    loadList();
     setInterval(loadList, 2000);
 
     // Start Security Polling
