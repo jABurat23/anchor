@@ -642,4 +642,31 @@ function showToast(message, isError = false) {
     }, 3000);
 }
 
+async function pollSecurity() {
+    try {
+        const res = await fetch('/api/security/alerts');
+        const alerts = await res.json();
+        renderSecurity(alerts);
+    } catch (e) { console.warn('Security poll failed', e); }
+}
+
+function renderSecurity(alerts) {
+    const banner = document.getElementById('security-alert-bar');
+    const msg = document.getElementById('security-msg');
+    const metric = document.getElementById('count-security');
+
+    if (!banner || !metric) return;
+
+    if (alerts && alerts.length > 0) {
+        banner.classList.remove('hidden');
+        msg.innerText = `${alerts.length} Security Alerts! Last: ${alerts[alerts.length - 1].message}`;
+        metric.innerText = 'THREAT DETECTED';
+        metric.style.color = '#ef4444'; // Red
+    } else {
+        banner.classList.add('hidden');
+        metric.innerText = 'Secure';
+        metric.style.color = 'var(--accent-green)';
+    }
+}
+
 init();
